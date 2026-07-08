@@ -20,8 +20,24 @@ class AppTheme {
       fontFamily: 'Tajawal',
       colorScheme: ColorScheme.dark(
         primary: primaryColor,
-        secondary: success,
-        error: danger,
+      ),
+    );
+  }
+
+  static void showCustomSnackBar(BuildContext context, String message, {bool isError = false, int bottomOffset = 150}) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(fontFamily: 'Tajawal', color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: isError ? danger : success,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height - bottomOffset,
+          left: 20,
+          right: 20,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        duration: const Duration(seconds: 3),
       ),
     );
   }

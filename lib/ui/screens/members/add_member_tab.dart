@@ -179,21 +179,9 @@ class _AddMemberTabState extends State<AddMemberTab> {
                                 selectedStartDate = DateTime.now();
                               });
                               
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('تمت إضافة المشترك بنجاح!', style: TextStyle(fontFamily: 'Tajawal')),
-                                  backgroundColor: AppTheme.success,
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
+                              AppTheme.showCustomSnackBar(context, 'تمت إضافة المشترك بنجاح!');
                             } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(e.toString().replaceAll('Exception: ', ''), style: const TextStyle(fontFamily: 'Tajawal', color: Colors.white)),
-                                  backgroundColor: AppTheme.danger,
-                                  duration: const Duration(seconds: 3),
-                                ),
-                              );
+                              AppTheme.showCustomSnackBar(context, e.toString().replaceAll('Exception: ', ''), isError: true);
                             }
                           }
                         },

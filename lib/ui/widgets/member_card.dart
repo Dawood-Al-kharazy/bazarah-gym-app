@@ -130,9 +130,7 @@ class MemberCard extends StatelessWidget {
                     newPeriodId: tempPeriod,
                     renewDays: renewOption,
                   );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('تم الحفظ بنجاح!', style: TextStyle(fontFamily: 'Tajawal')), backgroundColor: AppTheme.success, duration: Duration(seconds: 2)),
-                  );
+                  AppTheme.showCustomSnackBar(context, 'تم الحفظ بنجاح!');
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor, foregroundColor: Colors.white),
                 child: const Text('حفظ', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
@@ -273,9 +271,7 @@ class MemberCard extends StatelessWidget {
                               isDanger: true,
                               onConfirm: () {
                                 context.read<MemberProvider>().deleteMember(member.id);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('تم حذف المشترك', style: TextStyle(fontFamily: 'Tajawal')), backgroundColor: AppTheme.danger, duration: Duration(seconds: 2)),
-                                );
+                                AppTheme.showCustomSnackBar(context, 'تم حذف المشترك', isError: true);
                               },
                             );
                           },

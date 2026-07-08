@@ -107,10 +107,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 children: [
                   _buildHeader(context),
                   Expanded(
-                    child: IndexedStack(
-                      index: _currentIndex,
-                      children: pages,
-                    ),
+                    child: pages[_currentIndex],
                   ),
                 ],
               ),
@@ -124,7 +121,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   Widget _buildHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -139,7 +136,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 child: const Text(
                   'جيم سكن بازرعة',
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 24,
                     fontWeight: FontWeight.w800,
                     color: Colors.white,
                   ),
@@ -147,7 +144,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               ),
               const Text(
                 'نظام الإدارة',
-                style: TextStyle(color: AppTheme.textMuted, fontSize: 14),
+                style: TextStyle(color: AppTheme.textMuted, fontSize: 12),
               ),
             ],
           ),
@@ -217,14 +214,30 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   const SizedBox(height: 15),
                   ElevatedButton.icon(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('تم أخذ نسخة احتياطية بنجاح!', style: TextStyle(fontFamily: 'Tajawal'))),
-                      );
+                      Navigator.pop(context);
+                      AppTheme.showCustomSnackBar(context, 'تم أخذ نسخة احتياطية بنجاح!');
                     },
                     icon: const Icon(Icons.backup, color: Colors.white),
                     label: const Text('نسخ احتياطي للبيانات', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      AppTheme.showCustomSnackBar(context, 'تم استعادة البيانات بنجاح!');
+                    },
+                    icon: const Icon(Icons.restore, color: Colors.white),
+                    label: const Text('استعادة البيانات', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.success,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       minimumSize: const Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
