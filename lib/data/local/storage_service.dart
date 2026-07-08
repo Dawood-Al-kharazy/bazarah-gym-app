@@ -20,4 +20,18 @@ class StorageService {
     final String data = jsonEncode(members.map((e) => e.toJson()).toList());
     await prefs.setString(_key, data);
   }
+
+  static Future<String?> exportDataAsJson() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_key);
+  }
+
+  static Future<void> importDataFromJson(String jsonString) async {
+    // Validate JSON before saving
+    final List<dynamic> jsonList = jsonDecode(jsonString);
+    jsonList.map((e) => Member.fromJson(e)).toList(); // Throws error if invalid format
+    
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_key, jsonString);
+  }
 }

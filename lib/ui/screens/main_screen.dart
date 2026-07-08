@@ -213,9 +213,19 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   ),
                   const SizedBox(height: 15),
                   ElevatedButton.icon(
-                    onPressed: () {
+                    onPressed: () async {
                       Navigator.pop(context);
-                      AppTheme.showCustomSnackBar(context, 'تم أخذ نسخة احتياطية بنجاح!');
+                      final provider = Provider.of<MemberProvider>(context, listen: false);
+                      try {
+                        await provider.backupData();
+                        if (context.mounted) {
+                          AppTheme.showCustomSnackBar(context, 'تم تجهيز النسخة الاحتياطية!');
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          AppTheme.showCustomSnackBar(context, e.toString().replaceAll('Exception: ', ''), isError: true);
+                        }
+                      }
                     },
                     icon: const Icon(Icons.backup, color: Colors.white),
                     label: const Text('نسخ احتياطي للبيانات', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
@@ -230,9 +240,19 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   ),
                   const SizedBox(height: 15),
                   ElevatedButton.icon(
-                    onPressed: () {
+                    onPressed: () async {
                       Navigator.pop(context);
-                      AppTheme.showCustomSnackBar(context, 'تم استعادة البيانات بنجاح!');
+                      final provider = Provider.of<MemberProvider>(context, listen: false);
+                      try {
+                        await provider.restoreData();
+                        if (context.mounted) {
+                          AppTheme.showCustomSnackBar(context, 'تم استعادة البيانات بنجاح!');
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          AppTheme.showCustomSnackBar(context, e.toString().replaceAll('Exception: ', ''), isError: true);
+                        }
+                      }
                     },
                     icon: const Icon(Icons.restore, color: Colors.white),
                     label: const Text('استعادة البيانات', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
