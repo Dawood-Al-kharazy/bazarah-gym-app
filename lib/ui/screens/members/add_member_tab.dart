@@ -59,9 +59,9 @@ class _AddMemberTabState extends State<AddMemberTab> {
           _buildSectionTitle('إضافة مشترك جديد'),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 80),
+              padding: const EdgeInsets.only(bottom: 75),
               child: Container(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   color: AppTheme.glassBg,
                   border: Border.all(color: AppTheme.glassBorder),
@@ -86,7 +86,7 @@ class _AddMemberTabState extends State<AddMemberTab> {
                         validator: (val) => val == null || val.isEmpty ? 'يرجى إدخال الاسم' : null,
                         onSaved: (val) => name = val!,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 12),
                       
                       _buildLabel('الفترة المحددة'),
                       DropdownButtonFormField<String>(
@@ -109,13 +109,13 @@ class _AddMemberTabState extends State<AddMemberTab> {
                           });
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 12),
 
                       _buildLabel('تاريخ بدء الاشتراك'),
                       InkWell(
                         onTap: () => _selectStartDate(context),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                           decoration: BoxDecoration(
                             color: Colors.black.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(10),
@@ -133,7 +133,7 @@ class _AddMemberTabState extends State<AddMemberTab> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 12),
 
                       _buildLabel('مدة الاشتراك'),
                       DropdownButtonFormField<String>(
@@ -151,7 +151,7 @@ class _AddMemberTabState extends State<AddMemberTab> {
                           });
                         },
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
 
                       ElevatedButton(
                         onPressed: () async {
@@ -214,7 +214,7 @@ class _AddMemberTabState extends State<AddMemberTab> {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -235,7 +235,7 @@ class _AddMemberTabState extends State<AddMemberTab> {
 
   Widget _buildLabel(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 4),
       child: Text(text, style: const TextStyle(fontSize: 14, color: const Color(0xFFDDDDDD))),
     );
   }
@@ -247,6 +247,7 @@ class _AddMemberTabState extends State<AddMemberTab> {
       prefixIcon: Icon(icon, color: AppTheme.textMuted),
       filled: true,
       fillColor: Colors.black.withValues(alpha: 0.3),
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(color: AppTheme.glassBorder),
