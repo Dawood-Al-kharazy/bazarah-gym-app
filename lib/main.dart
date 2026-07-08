@@ -8,7 +8,6 @@ import 'ui/screens/main_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   
   runApp(
     MultiProvider(

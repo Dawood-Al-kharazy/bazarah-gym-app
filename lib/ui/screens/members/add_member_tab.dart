@@ -21,6 +21,7 @@ class _AddMemberTabState extends State<AddMemberTab> {
   DateTime selectedStartDate = DateTime.now();
 
   Future<void> _selectStartDate(BuildContext context) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedStartDate,
@@ -168,6 +169,7 @@ class _AddMemberTabState extends State<AddMemberTab> {
                             );
                             
                             try {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               await context.read<MemberProvider>().addMember(member);
                               
                               _formKey.currentState!.reset();

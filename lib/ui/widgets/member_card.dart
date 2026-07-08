@@ -17,7 +17,7 @@ class MemberCard extends StatelessWidget {
     required VoidCallback onConfirm,
     bool isDanger = false,
   }) async {
-    FocusScope.of(context).unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -50,7 +50,7 @@ class MemberCard extends StatelessWidget {
   }
 
   Future<void> _showEditDialog(BuildContext context) async {
-    FocusScope.of(context).unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
     String tempPeriod = member.periodId;
     int? renewOption;
 

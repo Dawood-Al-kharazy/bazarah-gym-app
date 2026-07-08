@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   String? currentDurationFilter;
 
   void _setIndex(int index) {
-    FocusScope.of(context).unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
       _currentIndex = index;
       if (index == 1) {
@@ -58,16 +58,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeMetrics() {
-    super.didChangeMetrics();
-    // Re-apply immersive sticky mode when keyboard closes to hide nav bar
-    final bottomInset = View.of(context).viewInsets.bottom;
-    if (bottomInset == 0.0) {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     final memberProvider = Provider.of<MemberProvider>(context);
 
@@ -87,42 +77,47 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       AddMemberTab(onMemberAdded: _navigateToAddMember),
     ];
 
-    return Scaffold(
-      backgroundColor: AppTheme.bgDark,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset('assets/images/bg.jpg', fit: BoxFit.cover),
-          ),
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    AppTheme.bgDark.withValues(alpha: 0.8),
-                    AppTheme.bgDark.withValues(alpha: 0.95),
-                  ],
+    final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: AppTheme.bgDark,
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset('assets/images/bg.jpg', fit: BoxFit.cover),
+            ),
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      AppTheme.bgDark.withValues(alpha: 0.8),
+                      AppTheme.bgDark.withValues(alpha: 0.95),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          SafeArea(
-            child: Column(
-              children: [
-                _buildHeader(context),
-                Expanded(
-                  child: IndexedStack(
-                    index: _currentIndex,
-                    children: pages,
+            SafeArea(
+              child: Column(
+                children: [
+                  _buildHeader(context),
+                  Expanded(
+                    child: IndexedStack(
+                      index: _currentIndex,
+                      children: pages,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          _buildBottomNav(),
-        ],
+            if (!isKeyboardVisible) _buildBottomNav(),
+          ],
+        ),
       ),
     );
   }
@@ -173,7 +168,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   }
 
   void _showInfoDialog(BuildContext context) {
-    FocusScope.of(context).unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
     showDialog(
       context: context,
       builder: (context) => Dialog(
