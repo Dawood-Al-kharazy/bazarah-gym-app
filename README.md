@@ -1,4 +1,4 @@
-# Bazarah Gym Management System (جيم سكن بازرعة) 🏋️‍♂️📱
+# Bazarah Gym Management System (جيم سكن بازرعة)
 
 A premium, fully offline-capable mobile application built with **Flutter** to streamline gym management operations. Designed with a sleek Dark-Themed Glassmorphism UI, this app offers a comprehensive suite of tools for managing members, tracking capacity, and generating Arabic PDF reports.
 
@@ -21,12 +21,6 @@ The application features a modern **Dark-Mode Glassmorphism** design, prioritizi
 
 ## 📸 Screenshots
 
-*(Add your awesome mockup screenshots here!)*
-
-<!--
-Example of adding an image:
-<img src="path_to_your_image.jpg" width="250">
--->
 
 ## 🛠️ Built With
 
