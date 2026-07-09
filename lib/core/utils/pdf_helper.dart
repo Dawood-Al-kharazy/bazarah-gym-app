@@ -62,7 +62,7 @@ class PdfHelper {
           index.toString(),
           member.name,
           'الفترة ${member.periodId}',
-          DateFormatter.formatArabic(member.endDate),
+          DateFormatter.formatNumeric(member.endDate),
           durationText,
           status,
         ].reversed.toList();

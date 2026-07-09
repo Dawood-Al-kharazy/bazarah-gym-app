@@ -18,7 +18,7 @@ class CsvHelper {
       final isExpired = DateFormatter.isExpired(member.endDate);
       final status = isExpired ? 'منتهي' : 'نشط';
       final durationText = member.duration == '15' ? 'نصف شهر' : 'شهر كامل';
-      final formattedDate = DateFormatter.formatArabic(member.endDate);
+      final formattedDate = DateFormatter.formatNumeric(member.endDate);
       
       // Escape commas in names if any
       final safeName = member.name.contains(',') ? '"${member.name}"' : member.name;

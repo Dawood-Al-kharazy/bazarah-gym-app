@@ -2,7 +2,11 @@ import 'package:intl/intl.dart';
 
 class DateFormatter {
   static String formatArabic(DateTime date) {
-    return DateFormat('yyyy MMM d', 'ar').format(date);
+    return DateFormat('d MMM yyyy', 'ar').format(date);
+  }
+
+  static String formatNumeric(DateTime date) {
+    return DateFormat('yyyy/MM/dd').format(date);
   }
 
   static bool isExpired(DateTime endDate) {
