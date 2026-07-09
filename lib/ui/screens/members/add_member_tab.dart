@@ -136,20 +136,16 @@ class _AddMemberTabState extends State<AddMemberTab> {
                       const SizedBox(height: 12),
 
                       _buildLabel('مدة الاشتراك'),
-                      DropdownButtonFormField<String>(
-                        value: duration,
-                        dropdownColor: const Color(0xFF14181E),
-                        style: const TextStyle(color: Colors.white, fontFamily: 'Tajawal'),
-                        decoration: _inputDecoration(icon: Icons.calendar_month),
-                        items: const [
-                          DropdownMenuItem(value: '15', child: Text('نصف شهر (15 يوم)')),
-                          DropdownMenuItem(value: '30', child: Text('شهر كامل (30 يوم)')),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildDurationOption('30', 'شهر كامل (30 يوم)'),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _buildDurationOption('15', 'نصف شهر (15 يوم)'),
+                          ),
                         ],
-                        onChanged: (val) {
-                          setState(() {
-                            duration = val!;
-                          });
-                        },
                       ),
                       const SizedBox(height: 20),
 
@@ -263,6 +259,38 @@ class _AddMemberTabState extends State<AddMemberTab> {
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: const BorderSide(color: Colors.redAccent),
+      ),
+    );
+  }
+
+  Widget _buildDurationOption(String value, String label) {
+    final isSelected = duration == value;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          duration = value;
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? AppTheme.primaryColor.withValues(alpha: 0.15) : Colors.black.withValues(alpha: 0.3),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: isSelected ? AppTheme.primaryColor : AppTheme.glassBorder,
+            width: isSelected ? 1.5 : 1,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? AppTheme.primaryColor : AppTheme.textMuted,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            fontSize: 13,
+          ),
+        ),
       ),
     );
   }

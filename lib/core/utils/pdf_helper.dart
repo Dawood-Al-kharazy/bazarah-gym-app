@@ -18,7 +18,7 @@ class PdfHelper {
         textDirection: pw.TextDirection.rtl,
         theme: pw.ThemeData.withFont(base: ttf),
         build: (context) => [
-          _buildHeader(),
+          _buildHeader(ttf),
           pw.SizedBox(height: 20),
           _buildTable(members, ttf),
         ],
@@ -28,15 +28,15 @@ class PdfHelper {
     return pdf.save();
   }
 
-  static pw.Widget _buildHeader() {
+  static pw.Widget _buildHeader(pw.Font ttf) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.center,
       children: [
-        pw.Text('جيم السكن - نظام الإدارة', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold, color: PdfColors.redAccent)),
+        pw.Text('جيم سكن بازرعة - نظام الإدارة', style: pw.TextStyle(font: ttf, fontSize: 24, color: PdfColors.redAccent)),
         pw.SizedBox(height: 5),
-        pw.Text('تقرير بيانات المشتركين', style: const pw.TextStyle(fontSize: 18, color: PdfColors.grey700)),
+        pw.Text('تقرير بيانات المشتركين', style: pw.TextStyle(font: ttf, fontSize: 18, color: PdfColors.grey700)),
         pw.SizedBox(height: 10),
-        pw.Text('تاريخ الطباعة: ${DateFormatter.formatArabic(DateTime.now())}', style: const pw.TextStyle(fontSize: 12, color: PdfColors.grey600)),
+        pw.Text('تاريخ الطباعة: ${DateFormatter.formatArabic(DateTime.now())}', style: pw.TextStyle(font: ttf, fontSize: 12, color: PdfColors.grey600)),
         pw.Divider(color: PdfColors.grey400),
       ],
     );
@@ -50,7 +50,7 @@ class PdfHelper {
       headerStyle: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold, font: ttf),
       cellStyle: pw.TextStyle(font: ttf, fontSize: 12),
       cellAlignment: pw.Alignment.center,
-      headers: ['م', 'اسم المشترك', 'الفترة', 'تاريخ الانتهاء', 'المدة', 'الحالة'],
+      headers: ['م', 'اسم المشترك', 'الفترة', 'تاريخ الانتهاء', 'المدة', 'الحالة'].reversed.toList(),
       data: members.asMap().entries.map((entry) {
         final index = entry.key + 1;
         final member = entry.value;
@@ -65,7 +65,7 @@ class PdfHelper {
           DateFormatter.formatArabic(member.endDate),
           durationText,
           status,
-        ];
+        ].reversed.toList();
       }).toList(),
     );
   }

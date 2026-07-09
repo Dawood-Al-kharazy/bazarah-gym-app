@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:printing/printing.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/pdf_helper.dart';
+import '../../core/utils/csv_helper.dart';
 import '../../providers/member_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter/services.dart';
 import 'dashboard/dashboard_tab.dart';
 import 'members/members_tab.dart';
@@ -81,9 +83,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        backgroundColor: AppTheme.bgDark,
-        body: Stack(
+      child: PopScope(
+        canPop: _currentIndex == 0,
+        onPopInvokedWithResult: (didPop, dynamic result) {
+          if (!didPop) {
+            _setIndex(0);
+          }
+        },
+        child: Scaffold(
+          backgroundColor: AppTheme.bgDark,
+          body: Stack(
           children: [
             Positioned.fill(
               child: Image.asset('assets/images/bg.jpg', fit: BoxFit.cover),
@@ -116,7 +125,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
           ],
         ),
       ),
-    );
+    ));
   }
 
   Widget _buildHeader(BuildContext context) {
@@ -204,6 +213,28 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     label: const Text('تصدير التقرير كـ PDF', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primaryColor,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      final provider = Provider.of<MemberProvider>(context, listen: false);
+                      final file = await CsvHelper.generateMembersCsv(provider.members);
+                      
+                      await Share.shareXFiles(
+                        [XFile(file.path)],
+                        text: 'تقرير بيانات المشتركين (Excel) - جيم سكن بازرعة',
+                      );
+                    },
+                    icon: const Icon(Icons.table_chart, color: Colors.white),
+                    label: const Text('تصدير التقرير كـ Excel', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green.shade600,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       minimumSize: const Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
