@@ -6,7 +6,6 @@ import '../../core/theme/app_theme.dart';
 import '../../core/utils/pdf_helper.dart';
 import '../../core/utils/csv_helper.dart';
 import '../../providers/member_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:flutter/services.dart';
 import 'dashboard/dashboard_tab.dart';
 import 'members/members_tab.dart';
@@ -224,12 +223,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   ElevatedButton.icon(
                     onPressed: () async {
                       final provider = Provider.of<MemberProvider>(context, listen: false);
-                      final file = await CsvHelper.generateMembersCsv(provider.members);
-                      
-                      await Share.shareXFiles(
-                        [XFile(file.path)],
-                        text: 'تقرير بيانات المشتركين (Excel) - جيم سكن بازرعة',
-                      );
+                      await CsvHelper.exportMembersCsv(context, provider.members);
                     },
                     icon: const Icon(Icons.table_chart, color: Colors.white),
                     label: const Text('تصدير التقرير كـ Excel', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/models/member_model.dart';
 import '../data/local/storage_service.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:file_picker/file_picker.dart';
+import '../core/utils/backup_helper.dart';
 
 class MemberProvider extends ChangeNotifier {
   List<Member> _members = [];
@@ -90,33 +87,24 @@ class MemberProvider extends ChangeNotifier {
       throw Exception('لا توجد بيانات للنسخ الاحتياطي');
     }
 
-    final directory = await getTemporaryDirectory();
-    final file = File('${directory.path}/Bazarah_Gym_Backup_${DateTime.now().millisecondsSinceEpoch}.json');
-    await file.writeAsString(jsonString);
-
-    await Share.shareXFiles(
-      [XFile(file.path)],
-      text: 'نسخة احتياطية لبيانات المشتركين - جيم سكن بازرعة',
-    );
+    try {
+      await BackupHelper.backup(jsonString);
+    } catch (e) {
+      throw Exception('فشل تصدير النسخة الاحتياطية: $e');
+    }
   }
 
   Future<void> restoreData() async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.any,
-    );
-
-    if (result != null && result.files.single.path != null) {
-      final file = File(result.files.single.path!);
-      final jsonString = await file.readAsString();
-      
-      try {
+    try {
+      final jsonString = await BackupHelper.restore();
+      if (jsonString != null && jsonString.isNotEmpty) {
         await StorageService.importDataFromJson(jsonString);
         await loadMembers();
-      } catch (e) {
-        throw Exception('ملف النسخة الاحتياطية غير صالح أو تالف');
+      } else {
+        throw Exception('تم إلغاء اختيار الملف أو الملف فارغ');
       }
-    } else {
-      throw Exception('تم إلغاء اختيار الملف');
+    } catch (e) {
+      throw Exception(e.toString().contains('إلغاء') ? 'تم إلغاء اختيار الملف' : 'ملف النسخة الاحتياطية غير صالح أو تالف');
     }
   }
 }
